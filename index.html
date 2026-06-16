@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M10 | 體育科技轉型顧問 & 智慧賽事規劃師</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons for High Quality Premium Visuals -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts for Modern Tech Aesthetic -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Noto Sans TC', 'sans-serif'],
+                    },
+                    colors: {
+                        itriBlue: '#0077C8',
+                        itriTeal: '#00B5B0',
+                        itriCyan: '#00C9ED',
+                        itriGreen: '#33B91E',
+                        itriLightGreen: '#A8E6CF',
+                        itriMint: '#E6F7F4',
+                        itriOrange: '#FF8A00',
+                        itriYellow: '#FFC400',
+                        itriPurple: '#6E42C1',
+                        itriRed: '#EF4348',
+                        itriPink: '#FF40BD',
+                        itriGray50: '#FAFBFC',
+                        itriGray100: '#EFF3F7',
+                        itriGray200: '#DDE3E8',
+                        itriGray300: '#BFC7CE',
+                        itriGray600: '#6B7785',
+                        itriGray800: '#2E3446',
+                        // 保持向後相容的別名
+                        techBlue: '#0077C8',
+                        premiumPurple: '#6E42C1',
+                        mintGreen: '#33B91E',
+                        mistGray: '#FAFBFC',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* CSS 自訂動畫與樣式 */
+        body {
+            background-color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* 科技感網格背景 */
+        .tech-grid {
+            background-image: 
+                linear-gradient(to right, rgba(0, 119, 200, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 119, 200, 0.04) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        /* 漸層光暈漂浮 */
+        .glow-sphere {
+            filter: blur(130px);
+            opacity: 0.45;
+            mix-blend-mode: multiply;
+            animation: floatGlow 15s infinite alternate ease-in-out;
+        }
+
+        @keyframes floatGlow {
+            0% { transform: translate(0px, 0px) scale(1); }
+            50% { transform: translate(40px, -60px) scale(1.2); }
+            100% { transform: translate(-30px, 40px) scale(0.9); }
+        }
+
+        /* 進入動畫樣式 */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 玻璃擬態高光卡片 */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.04);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(110, 66, 193, 0.3);
+            box-shadow: 0 20px 40px -15px rgba(0, 119, 200, 0.1);
+        }
+
+        /* 專門為極致按鈕設計的漸層邊框 */
+        .btn-gradient-border {
+            position: relative;
+            background: linear-gradient(135deg, #0077C8, #6E42C1);
+            padding: 2px;
+            border-radius: 9999px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-gradient-border-inner {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            color: #1e293b;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* RWD 樹狀圖線條在桌機顯示，手機隱藏 */
+        @media (min-width: 1024px) {
+            .tree-line {
+                background: linear-gradient(to bottom, #0077C8, #6E42C1);
+                width: 2px;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-slate-800">
+
+    <!-- 背景 Canvas 粒子動畫 -->
+    <canvas id="bg-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+
+    <!-- 背景裝飾漸層光暈 -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <div class="absolute top-[10%] left-[5%] w-[450px] h-[450px] rounded-full glow-sphere" style="background: rgba(0, 119, 200, 0.3); animation-delay: 0s;"></div>
+        <div class="absolute top-[40%] right-[5%] w-[500px] h-[500px] rounded-full glow-sphere" style="background: rgba(110, 66, 193, 0.3); animation-delay: -5s;"></div>
+        <div class="absolute bottom-[10%] left-[20%] w-[400px] h-[400px] rounded-full bg-teal-100 glow-sphere" style="animation-delay: -10s;"></div>
+        <div class="absolute inset-0 tech-grid"></div>
+    </div>
+
+    <!-- 導覽列 (Navbar) -->
+    <nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-transparent" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center text-white font-extrabold text-xl tracking-wider" style="background: linear-gradient(135deg, #0077C8, #6E42C1); box-shadow: 0 4px 12px rgba(0, 119, 200, 0.3);">
+                        M
+                    </div>
+                    <span class="text-xl font-bold tracking-tight bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">M10 SPORTS TECH</span>
+                </div>
+
+                <!-- 桌面版選單 -->
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#hero" class="text-slate-600 hover:text-techBlue font-medium transition-colors">首頁</a>
+                    <a href="#about" class="text-slate-600 hover:text-techBlue font-medium transition-colors">關於我</a>
+                    <a href="#services" class="text-slate-600 hover:text-techBlue font-medium transition-colors">AI 服務</a>
+                    <a href="#portfolio" class="text-slate-600 hover:text-techBlue font-medium transition-colors">精選案例</a>
+                    <a href="#blog" class="text-slate-600 hover:text-techBlue font-medium transition-colors">技術部落格</a>
+                    <a href="#contact" class="px-5 py-2.5 rounded-full text-white text-sm font-semibold transition-all duration-300 shadow-sm" style="background-color: #2E3446;" onmouseover="this.style.backgroundColor='#0077C8';" onmouseout="this.style.backgroundColor='#2E3446';">聯絡我</a>
+                </div>
+
+                <!-- 手機版漢堡按鈕 -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-slate-700 hover:text-techBlue p-2 focus:outline-none" aria-label="Toggle Menu">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 手機版選單抽屜 -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-20 left-0 w-full bg-white/95 backdrop-blur-lg border-b border-slate-200 shadow-lg px-6 py-6 flex flex-col gap-4 animate-fadeIn">
+            <a href="#hero" class="mobile-nav-link text-slate-700 hover:text-techBlue font-medium text-lg py-1">首頁</a>
+            <a href="#about" class="mobile-nav-link text-slate-700 hover:text-techBlue font-medium text-lg py-1">關於我</a>
+            <a href="#services" class="mobile-nav-link text-slate-700 hover:text-techBlue font-medium text-lg py-1">AI 服務</a>
+            <a href="#portfolio" class="mobile-nav-link text-slate-700 hover:text-techBlue font-medium text-lg py-1">精選案例</a>
+            <a href="#blog" class="mobile-nav-link text-slate-700 hover:text-techBlue font-medium text-lg py-1">技術部落格</a>
+            <hr class="border-slate-100 my-2">
+            <a href="#contact" class="mobile-nav-link block text-center px-5 py-3 rounded-xl bg-techBlue text-white font-semibold shadow-md">立即預約諮詢</a>
+        </div>
+    </nav>
+
+    <!-- 首頁區塊 (Hero Section) -->
+    <section id="hero" class="relative min-h-screen flex items-center justify-center pt-24 pb-16 z-10 px-6 lg:px-8">
+        <div class="max-w-5xl mx-auto text-center">
+            
+            <!-- 頂部精美徽章 -->
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border shadow-sm backdrop-blur-md mb-8 transition-colors duration-300" style="background: rgba(0, 119, 200, 0.05); border-color: rgba(0, 119, 200, 0.2);">
+                <span class="w-2 h-2 rounded-full animate-pulse" style="background-color: #0077C8;"></span>
+                <span class="text-xs font-semibold tracking-wider uppercase" style="color: #0077C8;">Next-Gen Sports Technology Consulting</span>
+            </div>
+
+            <!-- 主標題與打字機效果 -->
+            <div class="h-auto md:h-36 mb-6 flex items-center justify-center">
+                <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 leading-tight">
+                    <span id="typewriter" style="background: linear-gradient(to right, #0077C8, #6E42C1); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></span><span id="cursor" style="color: #0077C8;" class="font-light animate-pulse ml-1">|</span>
+                </h1>
+            </div>
+
+            <!-- 副標題 -->
+            <div class="flex flex-wrap justify-center items-center gap-3 text-slate-600 md:text-xl font-medium mb-12">
+                <span>體育科技轉型顧問</span>
+                <span class="hidden md:inline text-slate-300">|</span>
+                <span>智慧賽事規劃師</span>
+                <span class="hidden md:inline text-slate-300">|</span>
+                <span>AI 體育產品專家</span>
+            </div>
+
+            <!-- 呼籲行動按鈕 (CTA) -->
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-6">
+                <!-- 預設帶有藍紫漸層邊框，Hover時會變綠色光暈 + JS 文字變化的炫酷按鈕 -->
+                <a href="#contact" id="cta-btn" class="btn-gradient-border group min-w-[260px] text-center" style="filter: drop-shadow(0 8px 16px rgba(0, 119, 200, 0.25));">
+                    <span class="btn-gradient-border-inner group-hover:bg-opacity-0 group-hover:text-white">
+                        立即預約一對一諮詢
+                    </span>
+                </a>
+                
+                <a href="#services" class="px-8 py-4 rounded-full border border-slate-200 bg-white/60 hover:bg-white text-slate-700 font-semibold transition-all duration-300 flex items-center gap-2 shadow-sm hover:shadow-md hover:border-slate-300">
+                    了解解決方案 <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
+            </div>
+
+            <!-- 三個代表性數據指標 -->
+            <div class="grid grid-cols-3 gap-4 md:gap-8 max-w-3xl mx-auto mt-20 pt-10 border-t border-slate-200/50">
+                <div>
+                    <div class="text-3xl md:text-5xl font-black text-slate-900">98%</div>
+                    <div class="text-xs md:text-sm text-slate-500 font-medium mt-1">賽事客戶滿意度</div>
+                </div>
+                <div>
+                    <div class="text-3xl md:text-5xl font-black text-slate-900">50+</div>
+                    <div class="text-xs md:text-sm text-slate-500 font-medium mt-1">智慧場館及賽事轉型</div>
+                </div>
+                <div>
+                    <div class="text-3xl md:text-5xl font-black text-slate-900">10倍+</div>
+                    <div class="text-xs md:text-sm text-slate-500 font-medium mt-1">AI行銷聲量增幅</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 關於我區塊 (About Me Section) -->
+    <section id="about" class="py-24 relative z-10 px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- 區塊標題 -->
+            <div class="text-center mb-16 reveal">
+                <span class="text-techBlue font-bold text-sm tracking-wider uppercase">ABOUT M10</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mt-2">個人品牌架構樹狀圖</h2>
+                <div class="w-12 h-1 bg-gradient-to-r from-techBlue to-premiumPurple mx-auto mt-4 rounded-full"></div>
+                <p class="text-slate-500 mt-4 max-w-2xl mx-auto">整合頂尖AI科技與頂級賽事策劃，為您量身打造無懈可擊的現代運動商業佈局。</p>
+            </div>
+
+            <!-- 樹狀結構視覺圖 -->
+            <div class="relative max-w-5xl mx-auto mb-16 reveal">
+                
+                <!-- 中心總起點 (M10核心) -->
+                <div class="flex justify-center mb-10 lg:mb-16">
+                    <div class="relative z-10 p-6 rounded-2xl text-white text-center shadow-xl max-w-xs w-full transition-transform duration-300 hover:scale-105" style="background: linear-gradient(135deg, #0077C8, #6E42C1);">
+                        <div class="absolute -inset-1 rounded-2xl opacity-30 blur-md" style="background: linear-gradient(135deg, rgba(0, 119, 200, 0.5), rgba(110, 66, 193, 0.5));"></div>
+                        <div class="relative">
+                            <i class="fa-solid fa-brain text-3xl mb-2"></i>
+                            <h3 class="text-lg font-bold">M10 體育科技核心</h3>
+                            <p class="text-xs text-blue-100 mt-1">AI 賦能 ‧ 跨界整合 ‧ 智慧轉型</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 桌機版樹狀連接線 -->
+                <div class="hidden lg:block absolute left-1/2 top-24 w-full h-[150px] -translate-x-1/2 -z-10">
+                    <svg class="w-full h-full" viewBox="0 0 1000 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- 中間豎線 -->
+                        <path d="M500,0 L500,60" stroke="#3b82f6" stroke-width="2" stroke-dasharray="4 4" />
+                        <!-- 水平分岔線 -->
+                        <path d="M166,60 L834,60" stroke="url(#line-grad)" stroke-width="2" />
+                        <!-- 三個向下的垂直箭頭 -->
+                        <path d="M166,60 L166,120" stroke="#0077C8" stroke-width="2" />
+                        <path d="M500,60 L500,120" stroke="#6E42C1" stroke-width="2" />
+                        <path d="M834,60 L834,120" stroke="#33B91E" stroke-width="2" />
+                        
+                        <defs>
+                            <linearGradient id="line-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#0077C8" />
+                                <stop offset="50%" stop-color="#6E42C1" />
+                                <stop offset="100%" stop-color="#33B91E" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+
+                <!-- 三大核心分支卡片 -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    
+                    <!-- 分支 1 -->
+                    <div class="glass-card p-8 rounded-2xl relative overflow-hidden group">
+                        <div class="absolute top-0 left-0 w-full h-1.5 bg-techBlue"></div>
+                        <div class="w-12 h-12 rounded-xl bg-blue-50 text-techBlue flex items-center justify-center text-xl font-bold mb-6 group-hover:bg-techBlue group-hover:text-white transition-all duration-300">
+                            <i class="fa-solid fa-handshake"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-slate-900 mb-3">體育轉型顧問</h4>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2.5 py-1 rounded bg-blue-50 text-techBlue text-xs font-semibold">商業策略</span>
+                            <span class="px-2.5 py-1 rounded bg-blue-50 text-techBlue text-xs font-semibold">數位化導入</span>
+                        </div>
+                        <p class="text-slate-500 text-sm leading-relaxed">
+                            專為品牌、企業與體育組織提供頂級策略規劃，將繁雜的手工行政與舊系統徹底升級，導入 AI 智慧賽事思維。
+                        </p>
+                    </div>
+
+                    <!-- 分支 2 -->
+                    <div class="glass-card p-8 rounded-2xl relative overflow-hidden group">
+                        <div class="absolute top-0 left-0 w-full h-1.5 bg-premiumPurple"></div>
+                        <div class="w-12 h-12 rounded-xl bg-purple-50 text-premiumPurple flex items-center justify-center text-xl font-bold mb-6 group-hover:bg-premiumPurple group-hover:text-white transition-all duration-300">
+                            <i class="fa-solid fa-map"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-slate-900 mb-3">賽事規劃師</h4>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2.5 py-1 rounded bg-purple-50 text-premiumPurple text-xs font-semibold">智慧後勤</span>
+                            <span class="px-2.5 py-1 rounded bg-purple-50 text-premiumPurple text-xs font-semibold">一站式安排</span>
+                        </div>
+                        <p class="text-slate-500 text-sm leading-relaxed">
+                            極致優化的賽事物流與人員調度。完美協調全球選手食、衣、住、行與即時翻譯，實現「零煩惱」的賽事管理境界。
+                        </p>
+                    </div>
+
+                    <!-- 分支 3 -->
+                    <div class="glass-card p-8 rounded-2xl relative overflow-hidden group">
+                        <div class="absolute top-0 left-0 w-full h-1.5 bg-mintGreen"></div>
+                        <div class="w-12 h-12 rounded-xl bg-emerald-50 text-mintGreen flex items-center justify-center text-xl font-bold mb-6 group-hover:bg-mintGreen group-hover:text-white transition-all duration-300">
+                            <i class="fa-solid fa-cubes"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-slate-900 mb-3">體育產品經理</h4>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2.5 py-1 rounded bg-emerald-50 text-mintGreen text-xs font-semibold">AI 大數據</span>
+                            <span class="px-2.5 py-1 rounded bg-emerald-50 text-mintGreen text-xs font-semibold">行銷賦能</span>
+                        </div>
+                        <p class="text-slate-500 text-sm leading-relaxed">
+                            以 AI 數據為骨幹，重塑體育軟硬體產品體驗。主導高點擊率數據流向各大社群平台，將傳統產品打造成社群爆款。
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- 個人精闢自述 -->
+            <div class="glass-card p-8 lg:p-12 rounded-3xl max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-8 reveal">
+                <!-- 頭像/視覺符號佔位 -->
+                <div class="relative w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-tr from-techBlue to-premiumPurple p-1.5 shadow-xl flex-shrink-0">
+                    <div class="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
+                        <!-- 可以放置極簡線條的 M10 頭像 -->
+                        <i class="fa-solid fa-user-tie text-5xl text-slate-700"></i>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-3">關於 M10 的跨界定位</h3>
+                    <p class="text-slate-600 leading-relaxed mb-4">
+                        我們正身處於一個體育賽事與數位科技融合的全新黃金時代。M10 的定位並非單純的顧問或企劃，而是<strong>「連結實體賽事痛點與 AI 先進技術的超級橋樑」</strong>。
+                    </p>
+                    <p class="text-slate-600 leading-relaxed">
+                        擁有體育、科技產品、智慧後勤三方多年實戰經驗，M10 致力於用數據與AI釋放各主辦單位的生產力。我們將行銷做到極致裂變，將複雜行政降至零誤差，與您攜手邁向高利潤、大影響力的智慧新局。
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- AI與智慧解決方案服務區塊 (AI Services Section) -->
+    <section id="services" class="py-24 relative z-10 px-6 lg:px-8 bg-slate-50/40 backdrop-blur-3xl">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- 區塊標題與一字不漏的指定文案導入 -->
+            <div class="text-center mb-16 reveal">
+                <span class="text-premiumPurple font-bold text-sm tracking-wider uppercase">EXCLUSIVE SERVICES</span>
+                <h2 class="text-3xl md:text-5xl font-black text-slate-900 mt-2">科技賦能：一站式 AI 與智慧賽事解決方案</h2>
+                <div class="w-12 h-1 bg-gradient-to-r from-techBlue to-premiumPurple mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <!-- 主體核心完整文案展示區 -->
+            <div class="max-w-4xl mx-auto glass-card p-8 lg:p-12 rounded-3xl mb-16 border-l-4 border-l-techBlue reveal">
+                <p class="text-slate-700 text-lg leading-relaxed font-normal mb-6">
+                    在數位與 AI 轉型的浪潮下，現代體育賽事已不再只是單純的實體競技，更是數據、科技與精準行銷的深度結合。我們推出的「AI 與智慧賽事解決方案」，旨在透過科技為體育組織、企業與品牌全面賦能，將繁雜的賽事化繁為簡，讓每一次的體育活動都能發揮超乎預期的最大價值。
+                </p>
+                <p class="text-slate-700 text-lg leading-relaxed font-normal mb-6">
+                    在技術服務層面，我們提供客製化的運動賽事與專業裝備規劃，並導入 AI 與大數據思維，將賽事內容高效、精準地行銷至各大社群平台。透過智慧化的受眾分析與社群推播技術，我們能為品牌精準捕捉目標群眾、放大賽事聲量，讓您的影響力在數位世界無遠弗屆。
+                </p>
+                <p class="text-slate-700 text-lg leading-relaxed font-normal mb-6">
+                    除了線上的科技行銷，線下的「全方位賽事管理」更是我們值得信賴的核心優勢。我們建立了一套高效率的賽事運營系統，一站式完美安排各參賽隊伍的食、衣、住、行與專業翻譯服務。透過系統化的智慧調度，我們將後勤繁雜的行政庶務做到極致優化，讓客戶實現「零煩惱」的最高境界，能全心專注於賽事的核心價值。
+                </p>
+                <p class="text-slate-700 text-lg leading-relaxed font-normal">
+                    科技的本質，是為了放大人的價值。選擇我們的解決方案，不僅是選擇高效與流暢，更是為您的體育專案注入數位轉型的續航力，攜手打造更智慧、更具影響力的體育新未來。
+                </p>
+            </div>
+
+            <!-- 三欄卡片：深入細項技術亮點 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto reveal">
+                
+                <!-- 卡片 1 -->
+                <div class="glass-card p-8 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-blue-100/50 flex items-center justify-center text-techBlue text-xl mb-6">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">AI 精準行銷與推播</h3>
+                        <p class="text-slate-500 text-sm leading-relaxed mb-6">
+                            導入深度機器學習模型，精準描繪觀賽受眾輪廓。自動化生成賽事高光短影音，跨平台一鍵投放，全面搶佔粉絲心智。
+                        </p>
+                    </div>
+                    <ul class="space-y-2 text-xs font-semibold text-slate-600 border-t border-slate-100 pt-4">
+                        <li><i class="fa-solid fa-check text-techBlue mr-2"></i>多語系 AI 文案生成</li>
+                        <li><i class="fa-solid fa-check text-techBlue mr-2"></i>社群裂變機制設計</li>
+                    </ul>
+                </div>
+
+                <!-- 卡片 2 -->
+                <div class="glass-card p-8 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-purple-100/50 flex items-center justify-center text-premiumPurple text-xl mb-6">
+                            <i class="fa-solid fa-hotel"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">智慧調度與全方位後勤</h3>
+                        <p class="text-slate-500 text-sm leading-relaxed mb-6">
+                            利用雲端管理平台，無縫協調上千名隊員。包含尊榮住宿、客製化膳食、全天候即時雙語翻譯與車隊自動派遣調度。
+                        </p>
+                    </div>
+                    <ul class="space-y-2 text-xs font-semibold text-slate-600 border-t border-slate-100 pt-4">
+                        <li><i class="fa-solid fa-check text-premiumPurple mr-2"></i>一站式食衣住行派遣</li>
+                        <li><i class="fa-solid fa-check text-premiumPurple mr-2"></i>全自動翻譯媒合技術</li>
+                    </ul>
+                </div>
+
+                <!-- 卡片 3 -->
+                <div class="glass-card p-8 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-emerald-100/50 flex items-center justify-center text-mintGreen text-xl mb-6">
+                            <i class="fa-solid fa-gears"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">數位智慧裝備規劃</h3>
+                        <p class="text-slate-500 text-sm leading-relaxed mb-6">
+                            物聯網晶片、智慧穿戴設備整合。即時將參賽者健康、定位與運動數據同步至轉播主螢幕，為賽事帶來極致沉浸感。
+                        </p>
+                    </div>
+                    <ul class="space-y-2 text-xs font-semibold text-slate-600 border-t border-slate-100 pt-4">
+                        <li><i class="fa-solid fa-check text-mintGreen mr-2"></i>IoT 穿戴感應器部署</li>
+                        <li><i class="fa-solid fa-check text-mintGreen mr-2"></i>大螢幕即時數據串流</li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 精選作品集區塊 (Portfolio Section) -->
+    <section id="portfolio" class="py-24 relative z-10 px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- 區塊標題 -->
+            <div class="text-center mb-16 reveal">
+                <span class="text-techBlue font-bold text-sm tracking-wider uppercase">PORTFOLIO</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mt-2">智慧體育實戰成果</h2>
+                <div class="w-12 h-1 bg-gradient-to-r from-techBlue to-premiumPurple mx-auto mt-4 rounded-full"></div>
+                <p class="text-slate-500 mt-4 max-w-2xl mx-auto">M10 如何實際落實 AI 與智慧解決方案，將傳統賽事轉化為劃時代的商業奇蹟。</p>
+            </div>
+
+            <!-- 案例網格 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                
+                <!-- 案例 1 -->
+                <div class="group glass-card rounded-2xl overflow-hidden reveal">
+                    <div class="h-52 relative overflow-hidden flex items-center justify-center" style="background: linear-gradient(135deg, rgba(0, 119, 200, 0.1), rgba(110, 66, 193, 0.1));">
+                        <!-- 高級抽象 SVG 網線代表馬拉松數據流 -->
+                        <svg class="absolute inset-0 w-full h-full opacity-35" viewBox="0 0 400 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10,180 Q100,50 200,120 T390,20" stroke="#0077C8" stroke-width="3" fill="none"/>
+                            <path d="M10,150 Q120,100 220,150 T390,50" stroke="#6E42C1" stroke-width="2" fill="none"/>
+                            <circle cx="200" cy="120" r="6" fill="#0077C8" />
+                            <circle cx="290" cy="85" r="4" fill="#6E42C1" />
+                        </svg>
+                        <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-xs font-bold text-techBlue shadow-sm">AI 數據行銷</span>
+                        <i class="fa-solid fa-person-running text-6xl text-slate-400/40"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-slate-900 mb-2 group-hover:text-techBlue transition-colors duration-300">國際馬拉松 AI 數據流行銷</h3>
+                        <p class="text-slate-500 text-sm leading-relaxed mb-4">
+                            整合參賽選手晶片定位，利用 AI 自動剪輯選手在特定攝影點的奔跑精采瞬間，在5秒內自動推播至個人社群，大幅拉抬賽事曝光度，帶來破百萬的間接行銷產值。
+                        </p>
+                        <div class="flex items-center justify-between border-t border-slate-100 pt-4">
+                            <span class="text-xs text-slate-400">觸及成長 400%</span>
+                            <span class="text-xs font-bold text-techBlue group-hover:underline cursor-pointer">讀取報告 <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 案例 2 -->
+                <div class="group glass-card rounded-2xl overflow-hidden reveal">
+                    <div class="h-52 bg-gradient-to-tr from-purple-100 to-pink-100 relative overflow-hidden flex items-center justify-center">
+                        <!-- 高級抽象物聯網架構 -->
+                        <svg class="absolute inset-0 w-full h-full opacity-35" viewBox="0 0 400 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="150" y="30" width="100" height="40" rx="5" fill="#6E42C1" stroke="#6E42C1" stroke-width="1" fill-opacity="0.1"/>
+                            <rect x="50" y="110" width="100" height="40" rx="5" fill="#0077C8" stroke="#0077C8" stroke-width="1" fill-opacity="0.1"/>
+                            <rect x="250" y="110" width="100" height="40" rx="5" fill="#33B91E" stroke="#33B91E" stroke-width="1" fill-opacity="0.1"/>
+                            <path d="M200,70 L100,110 M200,70 L300,110" stroke="#6E42C1" stroke-width="1.5" stroke-dasharray="2 2" />
+                        </svg>
+                        <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-xs font-bold text-premiumPurple shadow-sm">IoT 智慧轉型</span>
+                        <i class="fa-solid fa-tower-broadcast text-6xl text-slate-400/40"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-slate-900 mb-2 group-hover:text-premiumPurple transition-colors duration-300">智慧場館物聯網與定位專案</h3>
+                        <p class="text-slate-500 text-sm leading-relaxed mb-4">
+                            協助國家級場館規劃物聯網傳感系統。結合即時人流與定位分析演算法，動態調節空調、燈光、與廣告推播面板，整體營運成本大幅下滑25%，觀眾滿意度破歷史新高。
+                        </p>
+                        <div class="flex items-center justify-between border-t border-slate-100 pt-4">
+                            <span class="text-xs text-slate-400">營運成本 -25%</span>
+                            <span class="text-xs font-bold text-premiumPurple group-hover:underline cursor-pointer">讀取報告 <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 案例 3 -->
+                <div class="group glass-card rounded-2xl overflow-hidden reveal">
+                    <div class="h-52 bg-gradient-to-tr from-emerald-100 to-teal-100 relative overflow-hidden flex items-center justify-center">
+                        <!-- 一站式後勤調度網路圖 -->
+                        <svg class="absolute inset-0 w-full h-full opacity-35" viewBox="0 0 400 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="200" cy="100" r="40" stroke="#33B91E" stroke-width="1" stroke-dasharray="4 4" />
+                            <circle cx="200" cy="100" r="10" fill="#33B91E" />
+                            <circle cx="100" cy="50" r="8" fill="#0077C8" />
+                            <circle cx="300" cy="150" r="8" fill="#6E42C1" />
+                            <path d="M100,50 L200,100 L300,150" stroke="#e2e8f0" stroke-width="2" />
+                        </svg>
+                        <span class="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-xs font-bold text-mintGreen shadow-sm">極致智慧後勤</span>
+                        <i class="fa-solid fa-truck-fast text-6xl text-slate-400/40"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-slate-900 mb-2 group-hover:text-mintGreen transition-colors duration-300">跨國聯賽一站式後勤系統</h3>
+                        <p class="text-slate-500 text-sm leading-relaxed mb-4">
+                            為 16 支來台參賽的跨國頂尖戰隊，量身定做一站式智慧派車、餐點控溫調配與即時 AI 翻譯終端。從落地到離境，實現極致優化管理，締造「零抱怨、高續約」的輝煌戰果。
+                        </p>
+                        <div class="flex items-center justify-between border-t border-slate-100 pt-4">
+                            <span class="text-xs text-slate-400">一站式零負評</span>
+                            <span class="text-xs font-bold text-mintGreen group-hover:underline cursor-pointer">讀取報告 <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 技術部落格區塊 (Blog Section) -->
+    <section id="blog" class="py-24 relative z-10 px-6 lg:px-8 bg-slate-50/20 backdrop-blur-3xl">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- 區塊標題 -->
+            <div class="text-center mb-16 reveal">
+                <span class="text-premiumPurple font-bold text-sm tracking-wider uppercase">INSIGHTS</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mt-2">技術部落格</h2>
+                <div class="w-12 h-1 bg-gradient-to-r from-techBlue to-premiumPurple mx-auto mt-4 rounded-full"></div>
+                <p class="text-slate-500 mt-4 max-w-2xl mx-auto">分享科技如何顛覆傳統體育的深刻洞察。從大數據、AI 演算法到實際賽事營運策略。</p>
+            </div>
+
+            <!-- 文章網格 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                
+                <!-- 網頁文章 1 -->
+                <article class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between reveal">
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 text-xs font-semibold text-techBlue mb-3">
+                            <span>賽事後勤學</span>
+                            <span>•</span>
+                            <span>5 min read</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-3 hover:text-techBlue transition-colors duration-200">
+                            <a href="#">AI 如何顛覆現代運動產業的後勤邏輯？從繁瑣庶務邁向完美自動化</a>
+                        </h3>
+                        <p class="text-slate-500 text-sm leading-relaxed mb-4">
+                            傳統賽事策劃往往耗費高達 60% 的時間在調派人員、訂房與現場翻譯的通訊落差上。我們將探討如何導入 AI 多模態模型，將這些繁複的線下營運做到精準的極致預測。
+                        </p>
+                    </div>
+                    <div class="p-6 border-t border-slate-100 flex items-center justify-between bg-slate-50/50">
+                        <span class="text-xs text-slate-400">2026 年 6 月 10 日</span>
+                        <button class="text-xs font-bold text-techBlue hover:underline flex items-center gap-1">閱讀更多 <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
+                    </div>
+                </article>
+
+                <!-- 網頁文章 2 -->
+                <article class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between reveal">
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 text-xs font-semibold text-premiumPurple mb-3">
+                            <span>智慧大數據</span>
+                            <span>•</span>
+                            <span>7 min read</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-3 hover:text-premiumPurple transition-colors duration-200">
+                            <a href="#">從大數據看體育行銷的下一波浪潮：精準受眾捕捉與極致社群推播</a>
+                        </h3>
+                        <p class="text-slate-500 text-sm leading-relaxed mb-4">
+                            不只是投放廣告！如何在大數據時代，分析觀眾觀看運動賽事的眼球動態、即時心率與社群分享頻率？這篇帶您一窺精準定位技術的強悍威力與爆發性增長。
+                        </p>
+                    </div>
+                    <div class="p-6 border-t border-slate-100 flex items-center justify-between bg-slate-50/50">
+                        <span class="text-xs text-slate-400">2026 年 6 月 01 日</span>
+                        <button class="text-xs font-bold text-premiumPurple hover:underline flex items-center gap-1">閱讀更多 <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
+                    </div>
+                </article>
+
+                <!-- 網頁文章 3 -->
+                <article class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between reveal">
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 text-xs font-semibold text-mintGreen mb-3">
+                            <span>物聯網與場館</span>
+                            <span>•</span>
+                            <span>6 min read</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-3 hover:text-mintGreen transition-colors duration-200">
+                            <a href="#">智慧場館的物聯網革命：如何透過環境感測與大螢幕交互重塑賽事氛圍</a>
+                        </h3>
+                        <p class="text-slate-500 text-sm leading-relaxed mb-4">
+                            場館本身就是活的有機體！物聯網與 AI 定位系統的結合，不但能極大化商業廣告投放效益，更將在互動、散場動線指引、乃至現場節能省水上帶來前所未有的技術突破。
+                        </p>
+                    </div>
+                    <div class="p-6 border-t border-slate-100 flex items-center justify-between bg-slate-50/50">
+                        <span class="text-xs text-slate-400">2026 年 5 月 18 日</span>
+                        <button class="text-xs font-bold text-mintGreen hover:underline flex items-center gap-1">閱讀更多 <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
+                    </div>
+                </article>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 核心產品與技術解決方案區塊 -->
+    <section id="solutions" class="py-20 relative z-10 px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12 reveal">
+                <span class="text-techBlue font-bold text-sm tracking-wider uppercase">核心產品與技術解決方案</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mt-2">打造領先賽事與AI裝備應用</h2>
+                <p class="text-slate-500 mt-4 max-w-2xl mx-auto">將賽事活動規劃和AI裝備應用轉化為具體執行策略，提升整體競賽體驗與效率。</p>
+            </div>
+            <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                <article class="glass-card p-8 rounded-3xl border border-slate-200/70 hover:border-techBlue transition-all">
+                    <div class="w-12 h-12 rounded-2xl bg-techBlue/10 text-techBlue flex items-center justify-center mb-5">
+                        <i class="fa-solid fa-calendar-heart text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">賽事活動規劃</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">訂閱賽事活動規劃，跟著我們一同走入數位賽事規劃以及AI行銷領域。</p>
+                </article>
+                <article class="glass-card p-8 rounded-3xl border border-slate-200/70 hover:border-premiumPurple transition-all">
+                    <div class="w-12 h-12 rounded-2xl bg-premiumPurple/10 text-premiumPurple flex items-center justify-center mb-5">
+                        <i class="fa-solid fa-face-smile text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">讓AI應用至裝備</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">從經驗、時做到操作說明，讓您妥善使用工具降低時間消耗。</p>
+                </article>
+                <article class="glass-card p-8 rounded-3xl border border-slate-200/70 hover:border-mintGreen transition-all">
+                    <div class="w-12 h-12 rounded-2xl bg-mintGreen/10 text-mintGreen flex items-center justify-center mb-5">
+                        <i class="fa-solid fa-heart text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">智慧賽事整合</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">結合賽事規劃與AI裝備應用，提供一套完整、可操作的智慧化執行方案。</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- 多元社群圖示配置 (Social Networks Dependencies) -->
+    <section id="social" class="py-20 relative z-10 px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <span class="text-techBlue font-bold text-sm tracking-wider uppercase">連接我們</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mt-2">多元社群通道</h2>
+                <p class="text-slate-500 mt-4 max-w-2xl mx-auto">透過多個平台與 M10 保持聯繫，獲取最新的運動科技洞察與業界資訊。</p>
+            </div>
+            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 max-w-4xl mx-auto">
+                <!-- LINE -->
+                <a href="https://line.me/ti/p/WkiAAeJ1Jx" target="_blank" class="group glass-card p-8 rounded-2xl border transition-all flex flex-col items-center text-center reveal" style="border-color: rgba(51, 185, 30, 0.3);">
+                    <div class="w-14 h-14 rounded-2xl bg-green-50 text-green-500 flex items-center justify-center mb-4 group-hover:bg-green-100 transition-colors">
+                        <i class="fa-brands fa-line text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-1">LINE</h3>
+                    <p class="text-xs text-slate-500">即時聯繫與諮詢</p>
+                </a>
+                <!-- Facebook -->
+                <a href="https://www.facebook.com/messi.dong.9" target="_blank" class="group glass-card p-8 rounded-2xl border transition-all flex flex-col items-center text-center reveal" style="border-color: rgba(0, 119, 200, 0.3);">
+                    <div class="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-4 group-hover:bg-blue-100 transition-colors">
+                        <i class="fa-brands fa-facebook-f text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-1">Facebook</h3>
+                    <p class="text-xs text-slate-500">分享專業見解</p>
+                </a>
+                <!-- LinkedIn -->
+                <a href="https://linkedin.com/in/m10sportstech" target="_blank" class="group glass-card p-8 rounded-2xl border transition-all flex flex-col items-center text-center reveal" style="border-color: rgba(0, 119, 200, 0.3);">
+                    <div class="w-14 h-14 rounded-2xl bg-blue-50 text-blue-700 flex items-center justify-center mb-4 group-hover:bg-blue-100 transition-colors">
+                        <i class="fa-brands fa-linkedin-in text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-1">LinkedIn</h3>
+                    <p class="text-xs text-slate-500">職業社交平台</p>
+                </a>
+                <!-- GitHub -->
+                <a href="https://github.com/m10sportstech" target="_blank" class="group glass-card p-8 rounded-2xl border transition-all flex flex-col items-center text-center reveal" style="border-color: rgba(110, 66, 193, 0.3);">
+                    <div class="w-14 h-14 rounded-2xl bg-gray-50 text-gray-900 flex items-center justify-center mb-4 group-hover:bg-gray-100 transition-colors">
+                        <i class="fa-brands fa-github text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-1">GitHub</h3>
+                    <p class="text-xs text-slate-500">開源專案分享</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 需求表單區塊 -->
+    <section id="forms" class="py-20 relative z-10 px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto">
+            <div class="glass-card p-12 rounded-3xl border border-slate-200/70 reveal">
+                <div class="text-center mb-10">
+                    <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-techBlue to-premiumPurple text-white mb-4">
+                        <i class="fa-solid fa-clipboard-list text-lg"></i>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900">填寫您的需求表單</h2>
+                    <p class="text-slate-600 mt-3">詳細描述您的專案需求，幫助 M10 提供更精準的解決方案。</p>
+                </div>
+                <div class="flex flex-col gap-4">
+                    <p class="text-slate-600 text-center text-sm">點擊下方按鈕，填寫簡潔的需求表單。M10 將在 24 小時內審閱並與您聯繫。</p>
+                    <a href="https://forms.gle/voYXzpy9xQANddcA9" target="_blank" class="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl text-white font-bold transition-all duration-300 transform hover:-translate-y-0.5 self-center" style="background: linear-gradient(135deg, #0077C8, #6E42C1); box-shadow: 0 8px 20px rgba(0, 119, 200, 0.25);" onmouseover="this.style.boxShadow='0 12px 28px rgba(0, 119, 200, 0.35);'" onmouseout="this.style.boxShadow='0 8px 20px rgba(0, 119, 200, 0.25);'">
+                        <i class="fa-solid fa-arrow-right text-lg"></i>
+                        填寫需求表單
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 聯絡我/預約諮詢區塊 (Contact & Booking Section) -->
+    <section id="contact" class="py-24 relative z-10 px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- 區塊標題 -->
+            <div class="text-center mb-16 reveal">
+                <span class="text-techBlue font-bold text-sm tracking-wider uppercase">READY TO TRANSFORM?</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mt-2">聯絡我們 ‧ 啟動科技浪潮</h2>
+                <div class="w-12 h-1 bg-gradient-to-r from-techBlue to-premiumPurple mx-auto mt-4 rounded-full"></div>
+                <p class="text-slate-500 mt-4 max-w-2xl mx-auto">不論您是需要高水準的體育科技轉型規劃，還是極致無憂的一站式智慧後勤整合，M10 將是您最值得信賴的合夥夥伴。</p>
+            </div>
+
+            <!-- 兩欄佈局：聯絡資訊/預約諮詢 與 聯絡表單 -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 max-w-5xl mx-auto">
+                
+                <!-- 左欄：預約諮詢與重要聯絡 -->
+                <div class="lg:col-span-5 flex flex-col justify-between reveal">
+                    <div class="glass-card p-8 rounded-3xl mb-8 flex-1">
+                        <h3 class="text-2xl font-bold text-slate-900 mb-6">一對一線上預約</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-8">
+                            準備好迎接零煩惱、大跨界的智慧體育新視界了嗎？點擊下方按鈕，您可以直接在 M10 的 Google日曆上挑選您方便的時間，預約 15 分鐘的免費初步探索諮詢。
+                        </p>
+                        
+                        <!-- 預約一對一諮詢按鈕 -->
+                        <a href="https://calendar.google.com/" target="_blank" class="w-full inline-flex items-center justify-center gap-3 px-6 py-4 rounded-2xl text-white font-bold transition-all duration-300 transform hover:-translate-y-0.5" style="background: linear-gradient(135deg, #0077C8, #6E42C1); box-shadow: 0 8px 16px rgba(0, 119, 200, 0.25);" onmouseover="this.style.boxShadow='0 12px 24px rgba(0, 119, 200, 0.35);'" onmouseout="this.style.boxShadow='0 8px 16px rgba(0, 119, 200, 0.25);'">
+                            <i class="fa-regular fa-calendar-days text-xl animate-bounce"></i>
+                            立即線上預約 15 分鐘諮詢
+                        </a>
+                    </div>
+
+                    <!-- 額外聯絡資訊 -->
+                    <div class="glass-card p-6 rounded-2xl">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-10 h-10 rounded-full bg-blue-50 text-techBlue flex items-center justify-center text-sm">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs text-slate-400 font-semibold uppercase">電子信箱</h4>
+                                <p class="text-slate-700 text-sm font-semibold">m10.sportstech@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-purple-50 text-premiumPurple flex items-center justify-center text-sm">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs text-slate-400 font-semibold uppercase">服務範圍</h4>
+                                <p class="text-slate-700 text-sm font-semibold">全球智慧化服務 ‧ 實體活動支援</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右欄：極緻聯絡表單 -->
+                <div class="lg:col-span-7 glass-card p-8 lg:p-10 rounded-3xl reveal">
+                    <h3 class="text-2xl font-bold text-slate-900 mb-6">即刻留下您的專案需求</h3>
+                    <form id="contact-form" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="name" class="block text-xs font-bold text-slate-500 uppercase mb-2">聯絡姓名 *</label>
+                                <input type="text" id="name" required class="w-full px-4 py-3.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:outline-none focus:border-2 transition-all" style="border-color: rgba(0, 119, 200, 0.3);" onfocus="this.style.borderColor='#0077C8'; this.style.boxShadow='0 0 0 3px rgba(0, 119, 200, 0.1);'" onblur="this.style.borderColor='rgba(0, 119, 200, 0.3)'; this.style.boxShadow='none';" placeholder="您的尊稱">
+                            </div>
+                            <div>
+                                <label for="org" class="block text-xs font-bold text-slate-500 uppercase mb-2">組織名稱 / 品牌</label>
+                                <input type="text" id="org" class="w-full px-4 py-3.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:outline-none focus:border-2 transition-all" style="border-color: rgba(0, 119, 200, 0.3);" onfocus="this.style.borderColor='#0077C8'; this.style.boxShadow='0 0 0 3px rgba(0, 119, 200, 0.1);'" onblur="this.style.borderColor='rgba(0, 119, 200, 0.3)'; this.style.boxShadow='none';" placeholder="例：XX體育協會、XX企業">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="email" class="block text-xs font-bold text-slate-500 uppercase mb-2">電子郵件 *</label>
+                            <input type="email" id="email" required class="w-full px-4 py-3.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:outline-none focus:border-2 transition-all" style="border-color: rgba(0, 119, 200, 0.3);" onfocus="this.style.borderColor='#0077C8'; this.style.boxShadow='0 0 0 3px rgba(0, 119, 200, 0.1);'" onblur="this.style.borderColor='rgba(0, 119, 200, 0.3)'; this.style.boxShadow='none';" placeholder="example@domain.com">
+                        </div>
+
+                        <div>
+                            <label for="service-type" class="block text-xs font-bold text-slate-500 uppercase mb-2">諮詢類別 *</label>
+                            <select id="service-type" required class="w-full px-4 py-3.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:outline-none focus:border-2 transition-all text-slate-700" style="border-color: rgba(0, 119, 200, 0.3);" onfocus="this.style.borderColor='#0077C8'; this.style.boxShadow='0 0 0 3px rgba(0, 119, 200, 0.1);'" onblur="this.style.borderColor='rgba(0, 119, 200, 0.3)'; this.style.boxShadow='none';">
+                                <option value="">請選擇您感興趣的服務</option>
+                                <option value="strategy">AI 與智慧賽事行銷/裝備解決方案</option>
+                                <option value="logistics">全方位賽事智慧後勤一站式安排</option>
+                                <option value="product">運動大數據與產品數位轉型諮詢</option>
+                                <option value="other">其他客製化合作洽談</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="message" class="block text-xs font-bold text-slate-500 uppercase mb-2">需求詳情 / 訊息 *</label>
+                            <textarea id="message" rows="4" required class="w-full px-4 py-3.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:outline-none focus:border-2 transition-all" style="border-color: rgba(0, 119, 200, 0.3);" onfocus="this.style.borderColor='#0077C8'; this.style.boxShadow='0 0 0 3px rgba(0, 119, 200, 0.1);'" onblur="this.style.borderColor='rgba(0, 119, 200, 0.3)'; this.style.boxShadow='none';" placeholder="請簡短描述您目前的賽事規劃規模、遭遇之痛點，以便 M10 提供更精準的初步建議。"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-4 rounded-xl text-white font-bold transition-all duration-300 shadow-md" style="background-color: #2E3446;" onmouseover="this.style.backgroundColor='#0077C8';" onmouseout="this.style.backgroundColor='#2E3446';">
+                            發送訊息
+                        </button>
+                    </form>
+                    
+                    <!-- 替代 Alert 的自訂通知區塊 -->
+                    <div id="form-success" class="hidden mt-6 p-4 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-800 flex items-center gap-3 animate-fadeIn">
+                        <i class="fa-solid fa-circle-check text-xl"></i>
+                        <div>
+                            <p class="font-bold">發送成功！</p>
+                            <p class="text-xs text-emerald-600 mt-0.5">我們已收到您的資訊，M10 將在 24 小時內親自與您聯繫。</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 頁尾 (Footer) -->
+    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800 relative z-10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center md:text-left">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-8">
+                <!-- Footer Logo -->
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-techBlue to-premiumPurple flex items-center justify-center text-white font-bold text-sm shadow-md">
+                        M
+                    </div>
+                    <span class="text-lg font-bold tracking-tight text-white">M10 SPORTS TECH</span>
+                </div>
+                <!-- 快捷連結 -->
+                <div class="flex flex-wrap justify-center gap-6 text-sm">
+                    <a href="#hero" class="hover:text-white transition-colors">首頁</a>
+                    <a href="#about" class="hover:text-white transition-colors">關於我</a>
+                    <a href="#services" class="hover:text-white transition-colors">AI 服務</a>
+                    <a href="#portfolio" class="hover:text-white transition-colors">案例成果</a>
+                    <a href="#blog" class="hover:text-white transition-colors">部落格</a>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-xs text-slate-500">&copy; 2026 M10 SPORTS TECH. All rights reserved.</p>
+                <div class="flex gap-4 text-slate-500">
+                    <a href="#" class="hover:text-white text-lg transition-colors"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="#" class="hover:text-white text-lg transition-colors"><i class="fa-brands fa-square-x-twitter"></i></a>
+                    <a href="#" class="hover:text-white text-lg transition-colors"><i class="fa-brands fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript 邏輯 (粒子背景、打字機、自訂滾動、CTA 按鈕轉換、Intersection Observer 進場) -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // ================= 1. 打字機效果 (Typewriter Effect) =================
+            const phrases = ["從智慧行銷到極致後勤，M10 讓您的賽事零煩惱、大跨界。"];
+            let phraseIndex = 0;
+            let charIndex = 0;
+            const targetElement = document.getElementById("typewriter");
+
+            function typeEffect() {
+                if (charIndex < phrases[phraseIndex].length) {
+                    targetElement.textContent += phrases[phraseIndex].charAt(charIndex);
+                    charIndex++;
+                    setTimeout(typeEffect, 90);
+                }
+            }
+            // 啟動打字機
+            setTimeout(typeEffect, 500);
+
+
+            // ================= 2. 智慧 CTA 按鈕 Hover 微互動 =================
+            const ctaBtn = document.getElementById("cta-btn");
+            const ctaInner = ctaBtn.querySelector(".btn-gradient-border-inner");
+            const defaultText = "立即預約一對一諮詢";
+            const hoverText = "Status: Ready to Connect";
+
+            ctaBtn.addEventListener("mouseenter", function () {
+                // 修改文字
+                ctaInner.textContent = hoverText;
+                // 添加薄荷綠柔和光暈特效
+                ctaBtn.style.boxShadow = "0 0 35px rgba(51, 185, 30, 0.65)";
+                ctaBtn.style.background = "linear-gradient(135deg, #33B91E, #33B91E)";
+                ctaInner.style.background = "rgba(51, 185, 30, 0.1)";
+                ctaInner.style.color = "#ffffff";
+            });
+
+            ctaBtn.addEventListener("mouseleave", function () {
+                // 還原文字
+                ctaInner.textContent = defaultText;
+                // 還原藍紫漸層
+                ctaBtn.style.boxShadow = "0 10px 30px -10px rgba(0, 119, 200, 0.3)";
+                ctaBtn.style.background = "linear-gradient(135deg, #0077C8, #6E42C1)";
+                ctaInner.style.background = "rgba(255, 255, 255, 0.95)";
+                ctaInner.style.color = "#1e293b";
+            });
+
+
+            // ================= 3. 滾動時導覽列 (Navbar) 毛玻璃效果切換 =================
+            const navbar = document.getElementById("navbar");
+            window.addEventListener("scroll", function () {
+                if (window.scrollY > 30) {
+                    navbar.classList.add("bg-white/80", "backdrop-blur-md", "shadow-sm", "border-slate-200/50");
+                    navbar.classList.remove("border-transparent");
+                } else {
+                    navbar.classList.remove("bg-white/80", "backdrop-blur-md", "shadow-sm", "border-slate-200/50");
+                    navbar.classList.add("border-transparent");
+                }
+            });
+
+
+            // ================= 4. 手機版選單切換 =================
+            const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+            const mobileMenu = document.getElementById("mobile-menu");
+
+            mobileMenuBtn.addEventListener("click", function () {
+                mobileMenu.classList.toggle("hidden");
+            });
+
+            // 點擊導覽列連結自動收合
+            const mobileLinks = document.querySelectorAll(".mobile-nav-link");
+            mobileLinks.forEach(link => {
+                link.addEventListener("click", function () {
+                    mobileMenu.classList.add("hidden");
+                });
+            });
+
+
+            // ================= 5. Canvas 粒子與資料流背景動畫 =================
+            const canvas = document.getElementById("bg-canvas");
+            const ctx = canvas.getContext("2d");
+
+            let width = (canvas.width = window.innerWidth);
+            let height = (canvas.height = window.innerHeight);
+
+            // 當視窗縮放時自適應
+            window.addEventListener("resize", function () {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
+
+            const particles = [];
+            const maxParticles = 35; // 優雅微弱數量，不搶戲
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.vx = (Math.random() - 0.5) * 0.4;
+                    this.vy = (Math.random() - 0.5) * 0.4;
+                    this.radius = Math.random() * 2 + 1;
+                    // ITRI藍色/紫色
+                    this.color = Math.random() > 0.5 ? "rgba(0, 119, 200, 0.15)" : "rgba(110, 66, 193, 0.15)";
+                }
+
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+
+                    if (this.x < 0 || this.x > width) this.vx *= -1;
+                    if (this.y < 0 || this.y > height) this.vy *= -1;
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color;
+                    ctx.fill();
+                }
+            }
+
+            for (let i = 0; i < maxParticles; i++) {
+                particles.push(new Particle());
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+
+                // 畫粒子並在近距離粒子間連線，營造數據流感
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+
+                        if (dist < 180) { // 連線臨界值
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            // 連線顏色非常淡
+                            ctx.strokeStyle = `rgba(99, 102, 241, ${0.08 * (1 - dist / 180)})`;
+                            ctx.lineWidth = 0.8;
+                            ctx.stroke();
+                        }
+                    }
+                }
+                requestAnimationFrame(animate);
+            }
+            animate();
+
+
+            // ================= 6. 滾動進場動畫 Intersection Observer =================
+            const reveals = document.querySelectorAll(".reveal");
+            const observer = new IntersectionObserver(
+                (entries, observer) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add("active");
+                            // 已經進入畫面後就停止觀察，避免反覆觸發
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                },
+                { threshold: 0.1 }
+            );
+
+            reveals.forEach((reveal) => {
+                observer.observe(reveal);
+            });
+
+
+            // ================= 7. 聯絡表單發送互動邏輯 (無Alert，使用自訂精美UI回饋) =================
+            const contactForm = document.getElementById("contact-form");
+            const formSuccess = document.getElementById("form-success");
+
+            contactForm.addEventListener("submit", function (e) {
+                e.preventDefault(); // 阻擋預設發送行為
+
+                // 模擬發送 API 延遲
+                const submitBtn = contactForm.querySelector("button[type='submit']");
+                submitBtn.disabled = true;
+                submitBtn.textContent = "正在安全發送中...";
+
+                setTimeout(() => {
+                    submitBtn.textContent = "發送成功！";
+                    // 顯示精美自訂回饋卡
+                    formSuccess.classList.remove("hidden");
+                    // 清空表單
+                    contactForm.reset();
+                    // 滾動稍微向下以完整看見成功訊息
+                    formSuccess.scrollIntoView({ behavior: "smooth", block: "nearest" });
+
+                    // 恢復按鈕
+                    setTimeout(() => {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = "發送訊息";
+                    }, 4000);
+
+                }, 1500);
+            });
+
+        });
+    </script>
+</body>
+</html>
